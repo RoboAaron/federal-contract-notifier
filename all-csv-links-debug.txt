@@ -1,0 +1,124 @@
+<a _ngcontent-ng-c582750793="" id="skipnav-link" tabindex="0" role="link" aria-label="Skip to main content on the same page" class="usa-skipnav">Skip to main content</a>
+---
+<a _ngcontent-ng-c784657709="" href="javascript:void(0)" aria-controls="collapseTarget" class="sds-alert--header__link simple-toggle"> Show / Hide Alerts </a>
+---
+<a _ngcontent-ng-c784657709="" role="button" href="javascript:void(0)" class="sds-alert--header__link" aria-expanded="false" aria-controls="alertDescription0"> Show Details </a>
+---
+<a _ngcontent-ng-c784657709="" role="button" href="javascript:void(0)" class="sds-alert--header__link" aria-expanded="false" aria-controls="alertDescription1"> Show Details </a>
+---
+<a _ngcontent-ng-c2756644093="" title="Home" aria-label="Go to Home page" href="/" class="ng-star-inserted"><img _ngcontent-ng-c2756644093="" class="sds-header__logo" src="/sfe/assets/img/trademark-logo-sam.svg" alt="SAM.gov"></a>
+---
+<a _ngcontent-ng-c2756644093="" id="home" class="usa-nav__link ng-star-inserted" href="/"><span _ngcontent-ng-c2756644093="">Home</span></a>
+---
+<a _ngcontent-ng-c2756644093="" id="search" class="usa-nav__link ng-star-inserted" href="/search/"><span _ngcontent-ng-c2756644093="">Search</span></a>
+---
+<a _ngcontent-ng-c2756644093="" id="databank" class="usa-nav__link ng-star-inserted" href="/reports/awards/standard"><span _ngcontent-ng-c2756644093="">Data Bank</span></a>
+---
+<a _ngcontent-ng-c2756644093="" id="dataService" class="usa-nav__link usa-current" href="/data-services"><span _ngcontent-ng-c2756644093="">Data Services</span></a>
+---
+<a _ngcontent-ng-c2756644093="" id="help" class="usa-nav__link ng-star-inserted" href="/help"><span _ngcontent-ng-c2756644093="">Help</span></a>
+---
+<a _ngcontent-ng-c2756644093="" id="request" href="/workspace/profile/feeds" class="undefined ng-star-inserted"><div _ngcontent-ng-c2756644093="" class="sds-stack sds-sm ng-star-inserted"><usa-icon _ngcontent-ng-c2756644093="" class="sds-stack-icon text-ink" _nghost-ng-c3644247382=""><i-bs _ngcontent-ng-c3644247382="" aria-hidden="true" role="img" class="rotate-0 size-lg"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
+  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
+</svg></i-bs><!----></usa-icon><!----></div><span _ngcontent-ng-c2756644093="" class="sds-nav__secondary-item-text ng-star-inserted">Requests</span><!----></a>
+---
+<a _ngcontent-ng-c2756644093="" id="notifications" href="/workspace/profile/feeds/notification" class="undefined ng-star-inserted"><div _ngcontent-ng-c2756644093="" class="sds-stack sds-sm ng-star-inserted"><usa-icon _ngcontent-ng-c2756644093="" class="sds-stack-icon text-ink" _nghost-ng-c3644247382=""><i-bs _ngcontent-ng-c3644247382="" aria-hidden="true" role="img" class="rotate-0 size-lg"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"></path>
+</svg></i-bs><!----></usa-icon><!----></div><span _ngcontent-ng-c2756644093="" class="sds-nav__secondary-item-text ng-star-inserted">Notifications</span><!----></a>
+---
+<a _ngcontent-ng-c2756644093="" id="workspace" href="/workspace/profile/workspace" class="undefined ng-star-inserted"><div _ngcontent-ng-c2756644093="" class="sds-stack sds-sm ng-star-inserted"><usa-icon _ngcontent-ng-c2756644093="" class="sds-stack-icon text-ink" _nghost-ng-c3644247382=""><i-bs _ngcontent-ng-c3644247382="" aria-hidden="true" role="img" class="rotate-0 size-lg"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid" viewBox="0 0 16 16">
+  <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"></path>
+</svg></i-bs><!----></usa-icon><!----></div><span _ngcontent-ng-c2756644093="" class="sds-nav__secondary-item-text ng-star-inserted">Workspace</span><!----></a>
+---
+<a _ngcontent-ng-c2756644093="" href="javascript:void(0)" id="signOut" class="undefined ng-star-inserted"><div _ngcontent-ng-c2756644093="" class="sds-stack sds-sm ng-star-inserted"><usa-icon _ngcontent-ng-c2756644093="" class="sds-stack-icon text-ink" _nghost-ng-c3644247382=""><i-bs _ngcontent-ng-c3644247382="" aria-hidden="true" role="img" class="rotate-0 size-lg"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-square" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"></path>
+</svg></i-bs><!----></usa-icon><!----></div><span _ngcontent-ng-c2756644093="" class="sds-nav__secondary-item-text ng-star-inserted">Sign Out</span><!----></a>
+---
+<a tabindex="0" class="data-service-file-hierarchy-link">Data Services&nbsp;</a>
+---
+<a tabindex="0" class="data-service-file-hierarchy-link ng-star-inserted">&nbsp;Contract Opportunities&nbsp;</a>
+---
+<a href="javascript:void(0);" tabindex="0" class="data-service-file-link ng-star-inserted"><i class="fa fa-folder-open data-service-file-icon"></i>&nbsp; historical <span class="sr-only">Folder under datagovPublic</span></a>
+---
+<a tabindex="0" href="javascript:void(0);" class="data-service-file-icon info-icon"><span class="usa-sr-only">Metadata Info for historicalPublic</span><i aria-hidden="true" role="presentation" class="fa fa-info-circle"></i></a>
+---
+<a tabindex="0" href="javascript:void(0)" class="data-service-file-link ng-star-inserted"><i class="fa fa-file-text-o data-service-file-icon"></i>&nbsp; ContractOpportunitiesFullCSV.csv <span class="sr-only">Item under datagovPublic</span></a>
+---
+<a tabindex="0" href="javascript:void(0);" class="data-service-file-icon info-icon"><span class="usa-sr-only">Metadata Info for ContractOpportunitiesFullCSV.csvPublic</span><i aria-hidden="true" role="presentation" class="fa fa-info-circle"></i></a>
+---
+<a _ngcontent-ng-c3160701187="" href="http://fsd.gov/" target="_blank" class="usa-link text-bold">Federal Service Desk.</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="About This Site" rel="" href="https://sam.gov/about/this-site">About This Site</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="Our Community - opens in a new window" rel="noopener" target="_blank" href="https://interact.gsa.gov/group/integrated-award-environment-iae-industry-community">Our Community</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="Release Notes - opens in a new window" rel="noopener" target="_blank" href="https://www.fsd.gov/gsafsd_sp?id=kb_category&amp;kb_category=ccf4380a1ba67410fe314000f54bcb16&amp;kb_id=f66d8e6cdb76d4100d73f81d0f9619c">Release Notes</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" href="/alerts">System Alerts</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="Acquisition.gov - opens in a new window" rel="noopener" target="_blank" href="https://Acquisition.gov">Acquisition.gov</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="USASpending.gov - opens in a new window" rel="noopener" target="_blank" href="https://USASpending.gov">USASpending.gov</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="Grants.gov - opens in a new window" rel="noopener" target="_blank" href="https://Grants.gov">Grants.gov</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="More Partners" rel="" href="https://sam.gov/about/partners">More Partners</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Terms of Use" rel="" href="https://sam.gov/about/terms-of-use">Terms of Use</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Privacy Policy" rel="" href="https://sam.gov/about/terms-of-use#privacy">Privacy Policy</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Restricted Data Use" rel="" href="https://sam.gov/about/terms-of-use#restricted">Restricted Data Use</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="Freedom of Information Act - opens in a new window" rel="noopener" target="_blank" href="https://www.gsa.gov/reference/freedom-of-information-act-foia">Freedom of Information Act</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Accessibility" rel="" href="https://sam.gov/about/accessibility">Accessibility</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Help" rel="" href="https://sam.gov/help">Help</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Check Entity Status" rel="" href="https://sam.gov/content/status-tracker">Check Entity Status</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="Federal Service Desk - opens in a new window" rel="noopener" target="_blank" href="https://www.fsd.gov/gsafsd_sp/?id=gsa_landing">Federal Service Desk</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="External Resources" rel="" href="https://sam.gov/about/external-resources">External Resources</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Contact" rel="" href="https://sam.gov/about/contact">Contact</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="About This Site" rel="" href="https://sam.gov/about/this-site">About This Site</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="Our Community - opens in a new window" rel="noopener" target="_blank" href="https://interact.gsa.gov/group/integrated-award-environment-iae-industry-community">Our Community</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="Release Notes - opens in a new window" rel="noopener" target="_blank" href="https://www.fsd.gov/gsafsd_sp?id=kb_category&amp;kb_category=ccf4380a1ba67410fe314000f54bcb16&amp;kb_id=f66d8e6cdb76d4100d73f81d0f9619c">Release Notes</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" href="/alerts">System Alerts</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="Acquisition.gov - opens in a new window" rel="noopener" target="_blank" href="https://Acquisition.gov">Acquisition.gov</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="USASpending.gov - opens in a new window" rel="noopener" target="_blank" href="https://USASpending.gov">USASpending.gov</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="Grants.gov - opens in a new window" rel="noopener" target="_blank" href="https://Grants.gov">Grants.gov</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="More Partners" rel="" href="https://sam.gov/about/partners">More Partners</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Terms of Use" rel="" href="https://sam.gov/about/terms-of-use">Terms of Use</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Privacy Policy" rel="" href="https://sam.gov/about/terms-of-use#privacy">Privacy Policy</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Restricted Data Use" rel="" href="https://sam.gov/about/terms-of-use#restricted">Restricted Data Use</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="Freedom of Information Act - opens in a new window" rel="noopener" target="_blank" href="https://www.gsa.gov/reference/freedom-of-information-act-foia">Freedom of Information Act</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Accessibility" rel="" href="https://sam.gov/about/accessibility">Accessibility</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Help" rel="" href="https://sam.gov/help">Help</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Check Entity Status" rel="" href="https://sam.gov/content/status-tracker">Check Entity Status</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link usa-link--external display-inline-block ng-star-inserted" aria-label="Federal Service Desk - opens in a new window" rel="noopener" target="_blank" href="https://www.fsd.gov/gsafsd_sp/?id=gsa_landing">Federal Service Desk</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="External Resources" rel="" href="https://sam.gov/about/external-resources">External Resources</a>
+---
+<a _ngcontent-ng-c982516948="" class="usa-link ng-star-inserted" aria-label="Contact" rel="" href="https://sam.gov/about/contact">Contact</a>
+---
+<a _ngcontent-ng-c982516948="" class="sds-footer__logo-link" href="https://www.gsa.gov"><img _ngcontent-ng-c982516948="" class="usa-footer__logo-img ng-star-inserted" src="/sfe/assets/img/logo-gsa.svg" alt="GSA Logo"><!----></a>

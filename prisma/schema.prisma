@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Opportunity {
+  id                String   @id @default(uuid())
+  title            String
+  description      String
+  agency           String
+  budget           Float?
+  sourceUrl        String   @unique
+  sourceType       String   // e.g., "SAM.gov", "FBO.gov"
+  postedDate       DateTime
+  dueDate          DateTime?
+  status           String   // e.g., "Open", "Closed", "Awarded"
+  naicsCodes       String[] // Stored as JSON array
+  setAside         String?
+  pointOfContact   Json?    // Stored as JSON object
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relations
+  technologyCategories TechnologyCategory[] @relation("OpportunityTechnologies")
+  notifiedSalesReps   SalesRep[]          @relation("NotifiedOpportunities")
+}
+
+model SalesRep {
+  id                  String   @id @default(uuid())
+  name               String
+  email              String   @unique
+  phone              String?
+  regions            String[] // Stored as JSON array
+  minBudget          Float?
+  maxBudget          Float?
+  notificationSettings Json    // Stored as JSON object
+  isActive           Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  // Relations
+  technologyInterests    TechnologyCategory[] @relation("SalesRepTechnologies")
+  notifiedOpportunities Opportunity[]       @relation("NotifiedOpportunities")
+}
+
+model TechnologyCategory {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  keywords    String[] // Stored as JSON array
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  opportunities Opportunity[] @relation("OpportunityTechnologies")
+  salesReps     SalesRep[]   @relation("SalesRepTechnologies")
+}
