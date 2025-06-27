@@ -4,7 +4,15 @@
 ---
 <a _ngcontent-ng-c784657709="" role="button" href="javascript:void(0)" class="sds-alert--header__link" aria-expanded="false" aria-controls="alertDescription0"> Show Details </a>
 ---
+<a href="/announcements/entity-records-retention">the full announcement</a>
+---
 <a _ngcontent-ng-c784657709="" role="button" href="javascript:void(0)" class="sds-alert--header__link" aria-expanded="false" aria-controls="alertDescription1"> Show Details </a>
+---
+<a href="http://sam.gov/FSRS"><u>SAM.gov/FSRS</u></a>
+---
+<a href="https://sam.gov/subaward-reports-help">Subaward Reports</a>
+---
+<a href="https://sam.gov/subcontract-reports-help">Subcontract Reports.</a>
 ---
 <a _ngcontent-ng-c2756644093="" title="Home" aria-label="Go to Home page" href="/" class="ng-star-inserted"><img _ngcontent-ng-c2756644093="" class="sds-header__logo" src="/sfe/assets/img/trademark-logo-sam.svg" alt="SAM.gov"></a>
 ---
@@ -39,13 +47,9 @@
 ---
 <a tabindex="0" class="data-service-file-hierarchy-link ng-star-inserted">&nbsp;Contract Opportunities&nbsp;</a>
 ---
-<a href="javascript:void(0);" tabindex="0" class="data-service-file-link ng-star-inserted"><i class="fa fa-folder-open data-service-file-icon"></i>&nbsp; historical <span class="sr-only">Folder under datagovPublic</span></a>
+<a href="javascript:void(0);" tabindex="0" class="data-service-file-link ng-star-inserted"><i class="fa fa-folder-open data-service-file-icon"></i>&nbsp; historical <span class="sr-only">Folder under dailyPublic</span></a>
 ---
 <a tabindex="0" href="javascript:void(0);" class="data-service-file-icon info-icon"><span class="usa-sr-only">Metadata Info for historicalPublic</span><i aria-hidden="true" role="presentation" class="fa fa-info-circle"></i></a>
----
-<a tabindex="0" href="javascript:void(0)" class="data-service-file-link ng-star-inserted"><i class="fa fa-file-text-o data-service-file-icon"></i>&nbsp; ContractOpportunitiesFullCSV.csv <span class="sr-only">Item under datagovPublic</span></a>
----
-<a tabindex="0" href="javascript:void(0);" class="data-service-file-icon info-icon"><span class="usa-sr-only">Metadata Info for ContractOpportunitiesFullCSV.csvPublic</span><i aria-hidden="true" role="presentation" class="fa fa-info-circle"></i></a>
 ---
 <a _ngcontent-ng-c3160701187="" href="http://fsd.gov/" target="_blank" class="usa-link text-bold">Federal Service Desk.</a>
 ---

@@ -6,6 +6,7 @@ import * as path from 'path';
 import * as os from 'os';
 import { parse } from 'csv-parse';
 import * as cheerio from 'cheerio';
+import puppeteer from 'puppeteer';
 
 export class SamGovCollector extends BaseCollector {
   private readonly apiKey: string;
@@ -45,81 +46,104 @@ export class SamGovCollector extends BaseCollector {
   }
 
   private async getLatestCsvUrl(): Promise<string> {
-    this.logger.info(`Fetching Data Services page: ${this.dataServicesUrl}`);
+    this.logger.info(`Fetching Data Services page with Puppeteer: ${this.dataServicesUrl}`);
     
-    for (let attempt = 1; attempt <= this.maxRetries; attempt++) {
-      try {
-        // First, get the main page to get any necessary cookies
-        const mainPageResponse = await axios.get('https://sam.gov', {
-          headers: this.defaultHeaders,
-          maxRedirects: 5
-        });
+    let browser;
+    try {
+      // Launch browser in non-headless mode so we can see what's happening
+      browser = await puppeteer.launch({
+        headless: false, // Show the browser window
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      });
+      
+      const page = await browser.newPage();
+      
+      // Set user agent
+      await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+      
+      // Navigate to the page
+      await page.goto(this.dataServicesUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+      
+      // Wait for content to load
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      
+      // Look for CSV download links with improved detection
+      const csvLinks = await page.evaluate(() => {
+        const links = Array.from(document.querySelectorAll('a'));
+        const csvLinks: string[] = [];
         
-        // Extract any cookies from the response
-        const cookies = mainPageResponse.headers['set-cookie'];
-        const cookieHeader = cookies ? cookies.join('; ') : '';
-        
-        // Now try to get the data services page with the cookies
-        const response = await axios.get(this.dataServicesUrl, {
-          headers: {
-            ...this.defaultHeaders,
-            'Cookie': cookieHeader
-          },
-          maxRedirects: 5
-        });
-        
-        const $ = cheerio.load(response.data);
-        
-        // Save the HTML for debugging
-        const debugHtmlPath = path.join(process.cwd(), 'logs', 'sam-gov-page.html');
-        fs.writeFileSync(debugHtmlPath, response.data);
-        this.logger.debug(`Saved page HTML to ${debugHtmlPath}`);
-        
-        // Find all links to CSV files with more flexible matching
-        const links = $('a');
-        let csvLinks: string[] = [];
-        
-        links.each((_, el) => {
-          const href = $(el).attr('href');
-          const text = $(el).text().trim();
+        links.forEach(link => {
+          const href = link.getAttribute('href');
+          const text = link.textContent?.trim() || '';
+          const title = link.getAttribute('title') || '';
+          
+          // More comprehensive CSV link detection
           if (href && (
-              href.toLowerCase().includes('contractopportunities') && 
-              href.toLowerCase().endsWith('.csv') ||
-              text.toLowerCase().includes('contract opportunities') && 
-              text.toLowerCase().includes('csv')
+            href.toLowerCase().includes('contractopportunities') && 
+            href.toLowerCase().endsWith('.csv') ||
+            href.toLowerCase().includes('csv') && 
+            (text.toLowerCase().includes('download') || text.toLowerCase().includes('csv')) ||
+            text.toLowerCase().includes('contract opportunities') && 
+            text.toLowerCase().includes('csv') ||
+            title.toLowerCase().includes('csv') ||
+            href.toLowerCase().includes('data') && href.toLowerCase().includes('csv')
           )) {
             const fullUrl = href.startsWith('http') ? href : `https://sam.gov${href}`;
             csvLinks.push(fullUrl);
-            this.logger.debug(`Found CSV link: ${fullUrl} (text: ${text})`);
           }
         });
         
-        if (csvLinks.length > 0) {
-          // Sort by URL to get the most recent (assuming newer files have newer timestamps in URL)
-          csvLinks.sort().reverse();
-          const latestCsvUrl = csvLinks[0];
-          this.logger.info(`Found latest CSV URL: ${latestCsvUrl}`);
-          return latestCsvUrl;
-        }
+        return csvLinks;
+      });
+      
+      this.logger.info(`Found ${csvLinks.length} potential CSV links`);
+      
+      if (csvLinks.length > 0) {
+        // Sort by URL to get the most recent (assuming newer files have newer timestamps in URL)
+        csvLinks.sort().reverse();
+        const latestCsvUrl = csvLinks[0];
+        this.logger.info(`Found latest CSV URL: ${latestCsvUrl}`);
+        return latestCsvUrl;
+      }
+      
+      // If no direct CSV links found, try to find download buttons or sections
+      const downloadButtons = await page.evaluate(() => {
+        const buttons = Array.from(document.querySelectorAll('button, .btn, [role="button"]'));
+        const downloadButtons: string[] = [];
         
-        // If no CSV links found, try to find the download section
-        const downloadSection = $('div:contains("Download")');
-        if (downloadSection.length > 0) {
-          this.logger.debug('Found download section:', downloadSection.html());
-        }
+        buttons.forEach(button => {
+          const text = button.textContent?.trim() || '';
+          const onclick = button.getAttribute('onclick') || '';
+          
+          if (text.toLowerCase().includes('download') || 
+              text.toLowerCase().includes('csv') ||
+              onclick.toLowerCase().includes('download')) {
+            downloadButtons.push(text);
+          }
+        });
         
-        throw new Error('No CSV links found on the page');
-      } catch (error) {
-        if (attempt === this.maxRetries) {
-          this.logger.error(`Failed to get CSV URL after ${this.maxRetries} attempts:`, error);
-          throw error;
-        }
-        this.logger.warn(`Attempt ${attempt} failed, retrying in ${this.retryDelay}ms...`);
-        await new Promise(resolve => setTimeout(resolve, this.retryDelay));
+        return downloadButtons;
+      });
+      
+      this.logger.debug('Found download buttons:', downloadButtons);
+      
+      // Save page screenshot for debugging
+      await page.screenshot({ path: 'logs/sam-gov-page.png', fullPage: true });
+      
+      // Save page HTML for debugging
+      const pageHtml = await page.content();
+      fs.writeFileSync(path.join(process.cwd(), 'logs', 'sam-gov-page-rendered.html'), pageHtml);
+      
+      throw new Error('No CSV links found on the page after JavaScript rendering');
+      
+    } catch (error) {
+      this.logger.error('Failed to get CSV URL with Puppeteer:', error);
+      throw error;
+    } finally {
+      if (browser) {
+        await browser.close();
       }
     }
-    
-    throw new Error('Could not find Contract Opportunities CSV link on the Data Services page.');
   }
 
   private async collectFromCsv(): Promise<Opportunity[]> {

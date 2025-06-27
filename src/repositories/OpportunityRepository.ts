@@ -6,10 +6,8 @@ const logger = createLogger('OpportunityRepository');
 export class OpportunityRepository {
   async create(data: any): Promise<any> {
     try {
-      // Omit department and publishDate fields if present
-      const { department, publishDate, ...dbData } = data;
       return await prisma.opportunity.create({
-        data: dbData,
+        data,
         include: {
           technologyCategories: true,
         },
@@ -30,6 +28,24 @@ export class OpportunityRepository {
       });
     } catch (error) {
       logger.error('Error finding opportunity by source URL:', error);
+      throw error;
+    }
+  }
+
+  async findBySourceUrls(sourceUrls: string[]): Promise<any[]> {
+    try {
+      return await prisma.opportunity.findMany({
+        where: {
+          sourceUrl: {
+            in: sourceUrls,
+          },
+        },
+        include: {
+          technologyCategories: true,
+        },
+      });
+    } catch (error) {
+      logger.error('Error finding opportunities by source URLs:', error);
       throw error;
     }
   }
@@ -131,6 +147,21 @@ export class OpportunityRepository {
       return result.count;
     } catch (error) {
       logger.error('Error deleting old opportunities:', error);
+      throw error;
+    }
+  }
+
+  async updateBySourceUrl(sourceUrl: string, data: any): Promise<any> {
+    try {
+      return await prisma.opportunity.update({
+        where: { sourceUrl },
+        data,
+        include: {
+          technologyCategories: true,
+        },
+      });
+    } catch (error) {
+      logger.error('Error updating opportunity:', error);
       throw error;
     }
   }

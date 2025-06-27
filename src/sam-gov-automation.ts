@@ -2,6 +2,7 @@ import puppeteer, { Page, HTTPResponse, ElementHandle } from 'puppeteer';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
+import { authenticator } from 'otplib';
 
 // Load environment variables
 dotenv.config();
@@ -102,21 +103,41 @@ async function handleLoginGov(page: Page, credentials: LoginCredentials): Promis
   if (twoFAOrRedirect === '2fa') {
     // Handle 2FA
     console.log('2FA prompt detected!');
+    // Wait for the 2FA prompt to fully load
+    await new Promise(res => setTimeout(res, 2000));
+    // Print all input fields and their attributes
+    const inputFields = await page.evaluate(() => {
+      return Array.from(document.querySelectorAll('input')).map(input => ({
+        name: input.name,
+        id: input.id,
+        type: input.type,
+        placeholder: input.placeholder,
+        outerHTML: input.outerHTML
+      }));
+    });
+    console.log('Input fields on 2FA page:', JSON.stringify(inputFields, null, 2));
     const screenshotPath = path.join(process.cwd(), '2fa-prompt.png') as `${string}.png`;
     await page.screenshot({ path: screenshotPath, fullPage: true });
     console.log(`2FA prompt screenshot saved to ${screenshotPath}`);
-    
-    // Wait for manual 2FA input
-    console.log('\n=== 2FA REQUIRED ===');
-    console.log('Please enter the 2FA code in the browser window.');
-    console.log('Waiting for 2FA completion...');
-    // Wait for any sam.gov page, or proceed if already there
-    let currentUrl = page.url();
-    if (!currentUrl.includes('sam.gov')) {
-      await page.waitForFunction(() => window.location.href.includes('sam.gov'), { timeout: 120000 });
-      currentUrl = page.url();
+
+    // Automated TOTP entry
+    const totpSecret = process.env.TOTP_SECRET;
+    if (!totpSecret) {
+      throw new Error('TOTP_SECRET not set in environment.');
     }
+    const code = authenticator.generate(totpSecret);
+    console.log('Generated TOTP code:', code);
+    // Find the OTP input and enter the code
+    await page.type('input[id^="code-"]', code, { delay: 50 });
+    // Submit the form (adjust selector if needed)
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 60000 }),
+      page.click('button[type="submit"], button[name="submit"]')
+    ]);
+    // Wait for navigation to complete
+    const currentUrl = page.url();
     console.log('2FA completed, now on:', currentUrl);
+    return;
   } else if (twoFAOrRedirect === 'navigated') {
     navigationHappened = true;
     // After navigation, check the new URL and look for 2FA or sam.gov
@@ -227,9 +248,29 @@ async function loginToSamGov(page: Page, credentials: LoginCredentials): Promise
   // Now on login.gov, handle login.gov authentication
   await handleLoginGov(page, credentials);
 
-  // Verify we're back on SAM.gov
+  // Wait for navigation to complete after login
+  console.log('Waiting for post-login navigation to complete...');
+  await new Promise(res => setTimeout(res, 5000)); // Wait 5 seconds for any redirects
+
   const currentUrl = page.url();
-  if (!currentUrl.includes('sam.gov')) {
+  console.log('Current URL after login:', currentUrl);
+  await page.screenshot({ path: 'post-login-debug.png', fullPage: true });
+
+  // Only navigate to the home page if not already there
+  if (!currentUrl.startsWith('https://sam.gov/')) {
+    console.log('Navigating to SAM.gov home page...');
+    await page.goto('https://sam.gov/', {
+      waitUntil: 'networkidle0',
+      timeout: 30000
+    });
+    console.log('Arrived at SAM.gov home page.');
+  } else {
+    console.log('Already on SAM.gov home page or a subpage.');
+  }
+
+  // Verify we're back on SAM.gov
+  const currentUrlAfterLogin = page.url();
+  if (!currentUrlAfterLogin.includes('sam.gov')) {
     throw new Error('Login failed - not redirected back to SAM.gov');
   }
 
@@ -244,8 +285,8 @@ async function downloadCsvFile(page: Page): Promise<void> {
   }
   console.log('Download directory:', downloadDir);
 
-  console.log('Navigating to Data Services page...');
-  await page.goto('https://sam.gov/data-services/Contract%20Opportunities/datagov?privacy=Public', {
+  console.log('Navigating to SAM.gov home page...');
+  await page.goto('https://sam.gov/', {
     waitUntil: 'networkidle0',
     timeout: 30000
   });
@@ -254,16 +295,113 @@ async function downloadCsvFile(page: Page): Promise<void> {
   console.log('Waiting for page content to load...');
   await page.waitForSelector('body', { timeout: 10000 });
 
+  // Find and click the Data Services link
+  console.log('Looking for Data Services link...');
+  const dataServicesLinkHandle = await page.evaluateHandle(() => {
+    const links = Array.from(document.querySelectorAll('a'));
+    return links.find(link => link.textContent && link.textContent.trim() === 'Data Services') || null;
+  });
+  
+  if (!dataServicesLinkHandle) {
+    await page.screenshot({ path: 'data-services-link-not-found.png', fullPage: true });
+    throw new Error('Data Services link not found on SAM.gov home page');
+  }
+  
+  const dataServicesElement = dataServicesLinkHandle.asElement() as ElementHandle<Element> | null;
+  if (!dataServicesElement) {
+    throw new Error('Data Services link handle is not an element');
+  }
+
+  console.log('Clicking Data Services link...');
+  await Promise.all([
+    page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 30000 }),
+    dataServicesElement.click()
+  ]);
+
+  // Now look for Contract Opportunities link
+  console.log('Looking for Contract Opportunities link...');
+  const contractOppsLinkHandle = await page.evaluateHandle(() => {
+    const links = Array.from(document.querySelectorAll('a'));
+    return links.find(link => link.textContent && link.textContent.includes('Contract Opportunities')) || null;
+  });
+  
+  if (!contractOppsLinkHandle) {
+    await page.screenshot({ path: 'contract-opps-link-not-found.png', fullPage: true });
+    throw new Error('Contract Opportunities link not found on Data Services page');
+  }
+  
+  const contractOppsElement = contractOppsLinkHandle.asElement() as ElementHandle<Element> | null;
+  if (!contractOppsElement) {
+    throw new Error('Contract Opportunities link handle is not an element');
+  }
+
+  console.log('Clicking Contract Opportunities link...');
+  await Promise.all([
+    page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 30000 }),
+    contractOppsElement.click()
+  ]);
+
   // Take screenshot for debugging
   const screenshotPath = path.join(process.cwd(), 'debug-screenshot.png') as `${string}.png`;
   await page.screenshot({ path: screenshotPath, fullPage: true });
   console.log(`Debug screenshot saved to ${screenshotPath}`);
 
-  // Find the CSV download link by its text content (robust to whitespace and extra elements)
-  console.log('Looking for CSV download link by text...');
+  // First, click on the "datagov" link to navigate into that folder
+  console.log('Looking for datagov folder link...');
+  const datagovLinkHandle = await page.evaluateHandle(() => {
+    const links = Array.from(document.querySelectorAll('a'));
+    return links.find(link => {
+      const text = link.textContent || '';
+      const cleanText = text.replace(/\s+/g, ' ').trim();
+      return cleanText.includes('datagov') && link.classList.contains('data-service-file-link');
+    }) || null;
+  });
+  
+  if (!datagovLinkHandle) {
+    // Fallback: try to find by class name
+    console.log('Trying fallback search by class name for datagov...');
+    const datagovElement = await page.$('a.data-service-file-link');
+    if (!datagovElement) {
+      await page.screenshot({ path: 'datagov-link-not-found.png', fullPage: true });
+      throw new Error('Datagov folder link not found on Contract Opportunities page');
+    }
+    console.log('Found datagov link by class name');
+    
+    console.log('Clicking datagov folder link...');
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 30000 }),
+      datagovElement.click()
+    ]);
+  } else {
+    const datagovElement = datagovLinkHandle.asElement() as ElementHandle<Element> | null;
+    if (!datagovElement) {
+      throw new Error('Datagov folder link handle is not an element');
+    }
+
+    console.log('Clicking datagov folder link...');
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'networkidle0', timeout: 30000 }),
+      datagovElement.click()
+    ]);
+  }
+
+  // Wait for the page to load after clicking datagov
+  await new Promise(res => setTimeout(res, 3000));
+  
+  // Take another screenshot after navigating to datagov folder
+  const datagovScreenshotPath = path.join(process.cwd(), 'datagov-folder-screenshot.png') as `${string}.png`;
+  await page.screenshot({ path: datagovScreenshotPath, fullPage: true });
+  console.log(`Datagov folder screenshot saved to ${datagovScreenshotPath}`);
+
+  // Now look for the CSV download link in the datagov folder
+  console.log('Looking for CSV download link in datagov folder...');
   const csvLinkHandle = await page.evaluateHandle(() => {
     const links = Array.from(document.querySelectorAll('a'));
-    return links.find(link => link.textContent && link.textContent.replace(/\s+/g, '').includes('ContractOpportunitiesFullCSV.csv')) || null;
+    return links.find(link => {
+      const text = link.textContent || '';
+      const cleanText = text.replace(/\s+/g, ' ').trim();
+      return cleanText.includes('ContractOpportunitiesFullCSV.csv');
+    }) || null;
   });
   const csvElement = csvLinkHandle.asElement() as ElementHandle<Element> | null;
   if (!csvElement) {

@@ -4,68 +4,26 @@ import { createLogger } from '../utils/logger';
 const logger = createLogger('Database');
 
 // Create a singleton instance of PrismaClient
-const prisma = new PrismaClient({
-  log: [
-    {
-      emit: 'event',
-      level: 'query',
-    },
-    {
-      emit: 'event',
-      level: 'error',
-    },
-    {
-      emit: 'event',
-      level: 'info',
-    },
-    {
-      emit: 'event',
-      level: 'warn',
-    },
-  ],
-});
+let prisma: PrismaClient;
 
-interface PrismaQueryEvent {
-  timestamp: Date;
-  query: string;
-  params: string;
-  duration: number;
-  target: string;
+if (process.env.NODE_ENV === 'production') {
+  prisma = new PrismaClient();
+} else {
+  // In development, use a global variable to prevent multiple instances
+  if (!(global as any).prisma) {
+    (global as any).prisma = new PrismaClient();
+  }
+  prisma = (global as any).prisma;
 }
 
-interface PrismaLogEvent {
-  timestamp: Date;
-  message: string;
-  target: string;
-}
-
-// Log all queries in development
-if (process.env.NODE_ENV !== 'production') {
-  prisma.$on('query', (e: PrismaQueryEvent) => {
-    logger.debug('Query: ' + e.query);
-    logger.debug('Duration: ' + e.duration + 'ms');
-  });
-}
-
-// Log all errors
-prisma.$on('error', (e: PrismaLogEvent) => {
-  logger.error('Prisma Error: ' + e.message);
-});
-
-// Log all info messages
-prisma.$on('info', (e: PrismaLogEvent) => {
-  logger.info('Prisma Info: ' + e.message);
-});
-
-// Log all warnings
-prisma.$on('warn', (e: PrismaLogEvent) => {
-  logger.warn('Prisma Warning: ' + e.message);
-});
-
-// Handle application shutdown
+// Handle application shutdown - only disconnect once
+let isDisconnecting = false;
 process.on('beforeExit', async () => {
-  await prisma.$disconnect();
-  logger.info('Disconnected from database');
+  if (!isDisconnecting) {
+    isDisconnecting = true;
+    await prisma.$disconnect();
+    logger.info('Disconnected from database');
+  }
 });
 
 export async function setupDatabase() {
