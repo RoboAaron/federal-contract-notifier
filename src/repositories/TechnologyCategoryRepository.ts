@@ -111,4 +111,60 @@ export class TechnologyCategoryRepository {
       throw error;
     }
   }
+
+  async findWithFilters(filters: any, options: any): Promise<any> {
+    try {
+      const { page = 1, limit = 50 } = options;
+      const skip = (page - 1) * limit;
+
+      const where: any = {};
+
+      if (filters.search) {
+        where.OR = [
+          { name: { contains: filters.search, mode: 'insensitive' } },
+          { description: { contains: filters.search, mode: 'insensitive' } },
+        ];
+      }
+
+      const [categories, total] = await Promise.all([
+        prisma.technologyCategory.findMany({
+          where,
+          skip,
+          take: limit,
+          orderBy: { name: 'asc' },
+          include: {
+            _count: {
+              select: {
+                opportunities: true,
+                salesReps: true,
+              },
+            },
+          },
+        }),
+        prisma.technologyCategory.count({ where })
+      ]);
+
+      return {
+        data: categories,
+        pagination: {
+          page,
+          limit,
+          total,
+          pages: Math.ceil(total / limit)
+        }
+      };
+    } catch (error) {
+      logger.error('Error finding technology categories with filters:', error);
+      throw error;
+    }
+  }
+
+  async count(): Promise<number> {
+    try {
+      return await prisma.technologyCategory.count();
+    } catch (error) {
+      logger.error('Error counting technology categories:', error);
+      throw error;
+    }
+  }
 } 

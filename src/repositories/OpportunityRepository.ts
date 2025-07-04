@@ -165,4 +165,95 @@ export class OpportunityRepository {
       throw error;
     }
   }
+
+  async findById(id: string): Promise<any | null> {
+    try {
+      return await prisma.opportunity.findUnique({
+        where: { id },
+        include: {
+          technologyCategories: true,
+          notifiedSalesReps: true,
+        },
+      });
+    } catch (error) {
+      logger.error('Error finding opportunity by ID:', error);
+      throw error;
+    }
+  }
+
+  async findWithFilters(filters: any, options: any): Promise<any> {
+    try {
+      const { page = 1, limit = 20, sortBy = 'postedDate', sortOrder = 'desc' } = options;
+      const skip = (page - 1) * limit;
+
+      const where: any = {};
+
+      if (filters.search) {
+        where.OR = [
+          { title: { contains: filters.search, mode: 'insensitive' } },
+          { description: { contains: filters.search, mode: 'insensitive' } },
+          { agency: { contains: filters.search, mode: 'insensitive' } },
+        ];
+      }
+
+      if (filters.agency) {
+        where.agency = { contains: filters.agency, mode: 'insensitive' };
+      }
+
+      if (filters.status) {
+        where.status = filters.status;
+      }
+
+      if (filters.minBudget !== undefined) {
+        where.budget = { ...where.budget, gte: filters.minBudget };
+      }
+
+      if (filters.maxBudget !== undefined) {
+        where.budget = { ...where.budget, lte: filters.maxBudget };
+      }
+
+      if (filters.technologyCategory) {
+        where.technologyCategories = {
+          some: {
+            name: { contains: filters.technologyCategory, mode: 'insensitive' }
+          }
+        };
+      }
+
+      const [opportunities, total] = await Promise.all([
+        prisma.opportunity.findMany({
+          where,
+          skip,
+          take: limit,
+          orderBy: { [sortBy]: sortOrder },
+          include: {
+            technologyCategories: true,
+          },
+        }),
+        prisma.opportunity.count({ where })
+      ]);
+
+      return {
+        data: opportunities,
+        pagination: {
+          page,
+          limit,
+          total,
+          pages: Math.ceil(total / limit)
+        }
+      };
+    } catch (error) {
+      logger.error('Error finding opportunities with filters:', error);
+      throw error;
+    }
+  }
+
+  async count(): Promise<number> {
+    try {
+      return await prisma.opportunity.count();
+    } catch (error) {
+      logger.error('Error counting opportunities:', error);
+      throw error;
+    }
+  }
 } 

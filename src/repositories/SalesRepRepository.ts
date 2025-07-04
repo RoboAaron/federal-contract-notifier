@@ -138,4 +138,65 @@ export class SalesRepRepository {
       throw error;
     }
   }
+
+  async findWithFilters(filters: any, options: any): Promise<any> {
+    try {
+      const { page = 1, limit = 20 } = options;
+      const skip = (page - 1) * limit;
+
+      const where: any = {};
+
+      if (filters.search) {
+        where.OR = [
+          { name: { contains: filters.search, mode: 'insensitive' } },
+          { email: { contains: filters.search, mode: 'insensitive' } },
+        ];
+      }
+
+      if (filters.region) {
+        where.regions = {
+          has: filters.region
+        };
+      }
+
+      if (filters.isActive !== undefined) {
+        where.isActive = filters.isActive;
+      }
+
+      const [salesReps, total] = await Promise.all([
+        prisma.salesRep.findMany({
+          where,
+          skip,
+          take: limit,
+          orderBy: { name: 'asc' },
+          include: {
+            technologyInterests: true,
+          },
+        }),
+        prisma.salesRep.count({ where })
+      ]);
+
+      return {
+        data: salesReps,
+        pagination: {
+          page,
+          limit,
+          total,
+          pages: Math.ceil(total / limit)
+        }
+      };
+    } catch (error) {
+      logger.error('Error finding sales reps with filters:', error);
+      throw error;
+    }
+  }
+
+  async count(): Promise<number> {
+    try {
+      return await prisma.salesRep.count();
+    } catch (error) {
+      logger.error('Error counting sales reps:', error);
+      throw error;
+    }
+  }
 } 

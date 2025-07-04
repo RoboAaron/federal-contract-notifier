@@ -12,6 +12,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+RUN npm run build
 
 # Stage 3: Production image
 FROM node:20-slim

@@ -13,11 +13,27 @@ build/
 .env
 .env.local
 .env.*.local
+config
+!config.example
 
 # Sensitive data
 sam-cookies.json
 *.csv
 test-csv.csv
+cookies.json
+*.crdownload
+
+# Debug and test files
+debug-screenshot.png
+post-login-debug.png
+initial-page.png
+csv-link-not-found.png
+daily-folder-screenshot.png
+datagov-folder-screenshot.png
+2fa-prompt.png
+after-*.png
+after-*.html
+all-csv-links-debug.txt
 
 # IDE files
 .idea/
@@ -33,4 +49,16 @@ Thumbs.db
 logs/
 *.log
 
+# Generated files
 /src/generated/prisma
+
+# Downloads and reports
+downloads/
+reports/
+
+# Docker volumes
+docker-volumes/
+
+# Temporary files
+*.tmp
+*.temp

@@ -1,0 +1,22 @@
+# Database Configuration
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/federal_contracts"
+
+# Server Configuration
+PORT=38888
+NODE_ENV=development
+
+# Email Configuration (for notifications)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+
+# SAM.gov API Configuration
+SAM_GOV_API_KEY=your-sam-gov-api-key
+
+# Logging Configuration
+LOG_LEVEL=info
+LOG_FILE=logs/app.log
+
+# Frontend Configuration
+REACT_APP_API_URL=http://localhost:38888/api 

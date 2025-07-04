@@ -1,0 +1,73 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    container_name: federal-contract-db
+    environment:
+      POSTGRES_DB: federal_contracts
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend-build
+    container_name: federal-contract-backend
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/federal_contracts
+      NODE_ENV: production
+      PORT: 38888
+    ports:
+      - "38888:38888"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./logs:/app/logs
+    command: ["npm", "run", "start"]
+
+  # Frontend (Development)
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: federal-contract-frontend-dev
+    ports:
+      - "38889:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      REACT_APP_API_URL: http://localhost:38888/api
+    depends_on:
+      - backend
+    profiles:
+      - dev
+
+  # Frontend (Production)
+  frontend-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend-build
+    container_name: federal-contract-frontend-prod
+    ports:
+      - "38889:80"
+    depends_on:
+      - backend
+    profiles:
+      - prod
+
+volumes:
+  postgres_data: 
