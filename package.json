@@ -22,7 +22,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^6.9.0",
+    "@prisma/client": "^6.11.1",
     "@types/cheerio": "^0.22.35",
     "@types/cors": "^2.8.19",
     "@types/puppeteer": "^5.4.7",
