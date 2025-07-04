@@ -1,0 +1,46 @@
+# Dependabot configuration file
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "RoboAaron"
+    assignees:
+      - "RoboAaron"
+
+  # Enable version updates for npm in frontend directory
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "RoboAaron"
+    assignees:
+      - "RoboAaron"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "RoboAaron"
+    assignees:
+      - "RoboAaron"
+
+  # Enable version updates for Docker
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "RoboAaron"
+    assignees:
+      - "RoboAaron" 

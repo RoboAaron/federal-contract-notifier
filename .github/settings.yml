@@ -1,0 +1,44 @@
+# Repository Settings Configuration
+repository:
+  # Repository name
+  name: federal-contract-notifier
+  # Repository description
+  description: A comprehensive system for tracking and notifying about federal government contract opportunities
+  # Repository homepage
+  homepage: https://github.com/RoboAaron/federal-contract-notifier
+  # Repository topics
+  topics:
+    - federal-contracts
+    - government
+    - notifications
+    - typescript
+    - react
+    - nodejs
+    - postgresql
+    - docker
+    - api
+    - web-scraping
+  # Repository visibility
+  private: false
+  # Repository has issues
+  has_issues: true
+  # Repository has projects
+  has_projects: true
+  # Repository has wiki
+  has_wiki: true
+  # Repository has downloads
+  has_downloads: true
+  # Repository default branch
+  default_branch: main
+  # Repository allow squash merge
+  allow_squash_merge: true
+  # Repository allow merge commit
+  allow_merge_commit: true
+  # Repository allow rebase merge
+  allow_rebase_merge: true
+  # Repository delete branch on merge
+  delete_branch_on_merge: true
+  # Repository archived
+  archived: false
+  # Repository disabled
+  disabled: false 

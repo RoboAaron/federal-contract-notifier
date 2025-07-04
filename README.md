@@ -33,7 +33,7 @@ A comprehensive system for tracking and notifying about federal government contr
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/federal-contract-notifier.git
+git clone https://github.com/RoboAaron/federal-contract-notifier.git
 cd federal-contract-notifier
 ```
 
@@ -274,7 +274,7 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 If you encounter any issues or have questions, please:
 
 1. Check the [troubleshooting section](#troubleshooting)
-2. Search existing [issues](https://github.com/yourusername/federal-contract-notifier/issues)
+2. Search existing [issues](https://github.com/RoboAaron/federal-contract-notifier/issues)
 3. Create a new issue with detailed information
 
 ## 🔐 Security
